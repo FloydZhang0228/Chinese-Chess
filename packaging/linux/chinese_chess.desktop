@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Chinese Chess
+Name[zh_CN]=中国象棋
+Exec=chinese_chess
+Icon=chinese_chess
+Categories=Game;BoardGame;
+Terminal=false
