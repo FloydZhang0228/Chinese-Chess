@@ -3,6 +3,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+/// 全局行楷字体(马善政, OFL 协议, 已裁剪到界面用字, 见 assets/fonts)。
+const fontFamily = 'MaShanZheng';
+
 /// 黑透配色: 近黑底 + 烟熏玻璃, 点缀只用一种冷银青。
 class Palette {
   static const neon = Color(0xFF9FE8F2); // 网格/星位/高亮的冷银青
@@ -15,6 +18,7 @@ class Palette {
 
 ThemeData buildTheme() => ThemeData(
       useMaterial3: true,
+      fontFamily: fontFamily,
       brightness: Brightness.dark,
       colorScheme: ColorScheme.fromSeed(seedColor: Palette.neon, brightness: Brightness.dark),
       scaffoldBackgroundColor: Colors.transparent,
@@ -22,7 +26,11 @@ ThemeData buildTheme() => ThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: Colors.white,
           side: BorderSide(color: Colors.white.withValues(alpha: 0.25)),
+          textStyle: const TextStyle(fontFamily: fontFamily, fontSize: 20, fontWeight: FontWeight.normal),
         ),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(textStyle: const TextStyle(fontFamily: fontFamily, fontSize: 20, fontWeight: FontWeight.normal)),
       ),
       segmentedButtonTheme: SegmentedButtonThemeData(
         style: ButtonStyle(
@@ -33,6 +41,7 @@ ThemeData buildTheme() => ThemeData(
           ),
           side: WidgetStatePropertyAll(BorderSide(color: Colors.white.withValues(alpha: 0.18))),
           foregroundColor: const WidgetStatePropertyAll(Colors.white),
+          textStyle: const WidgetStatePropertyAll(TextStyle(fontFamily: fontFamily, fontSize: 19, fontWeight: FontWeight.normal)),
         ),
       ),
     );

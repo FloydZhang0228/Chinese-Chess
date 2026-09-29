@@ -134,8 +134,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final wide = MediaQuery.sizeOf(context).width > 820;
     final board = Padding(
-      padding: const EdgeInsets.all(6),
+      padding: const EdgeInsets.all(8),
       child: BoardView(
+        align: wide ? Alignment.centerLeft : Alignment.center,
         game: g,
         flipped: flipped,
         selected: selected,
@@ -174,10 +175,11 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: wide
             ? Row(children: [
+                // 棋盘取满剩余空间并贴左, 面板固定宽度贴右
                 Expanded(child: board),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 6, 10, 6),
-                  child: SizedBox(width: 260, child: SingleChildScrollView(child: panel)),
+                  padding: const EdgeInsets.fromLTRB(0, 8, 12, 8),
+                  child: SizedBox(width: 300, child: SingleChildScrollView(child: panel)),
                 ),
               ])
             : Column(children: [
@@ -225,7 +227,7 @@ class _Panel extends StatelessWidget {
         ShaderMask(
           shaderCallback: (r) => const LinearGradient(colors: [Colors.white, Palette.neon]).createShader(r),
           child: Text('中国象棋',
-              style: t.headlineMedium?.copyWith(fontWeight: FontWeight.w800, color: Colors.white, letterSpacing: 4)),
+              style: t.headlineLarge?.copyWith(fontWeight: FontWeight.normal, color: Colors.white, letterSpacing: 6)),
         ),
         const SizedBox(height: 14),
         Container(
@@ -238,8 +240,8 @@ class _Panel extends StatelessWidget {
           child: Row(children: [
             _Stone(red: turn == 1, dim: over, pulse: thinking),
             const SizedBox(width: 12),
-            Expanded(child: Text(status, style: t.titleMedium)),
-            Text('第 $moves 手', style: t.bodySmall?.copyWith(color: Colors.white70)),
+            Expanded(child: Text(status, style: t.titleLarge)),
+            Text('第 $moves 手', style: t.bodyMedium?.copyWith(color: Colors.white70)),
           ]),
         ),
         const SizedBox(height: 14),

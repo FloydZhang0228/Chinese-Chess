@@ -10,6 +10,7 @@ lib/ui/         主题、毛玻璃组件、棋盘绘制、自绘标题栏
 lib/main.dart   入口与页面
 test/           core/ 规则与 AI 测试, ui/ 界面测试
 scripts/        build.sh(Linux/macOS/Git Bash), build.ps1(Windows PowerShell)
+assets/fonts/   行楷字体(马善政,已裁剪,见下文)
 packaging/      应用图标 icon.png, Linux AppImage 资源
 build/<平台>/   构建产物
 docs/           设计文档与实现计划
@@ -25,7 +26,9 @@ docs/           设计文档与实现计划
 
 <2>. AI:负极大值 Alpha-Beta,吃子按 MVV-LVA 优先排序,叶子做只看吃子的静态搜索;评估为子力 + 兵过河加成 + 位置分。简单 / 普通 / 困难的搜索深度为 2 / 3 / 4。搜索在后台 isolate 中运行,界面不卡。
 
-<3>. 暂未实现:长将 / 长捉判和、无吃子步数和棋、置换表、开局库。
+<3>. 字体:界面和棋子统一使用行楷「马善政」(Ma Shan Zheng),SIL OFL 1.1 协议,协议全文在 `assets/fonts/OFL.txt`。原字体 5.6 MB,已裁剪到只含界面用到的字(约 270 KB);该字体只有简体,所以棋子用「车马炮帅将」而不是「車馬砲帥將」。新增界面文字后,需用 `pyftsubset` 重新裁剪,否则缺字会回退成系统字体。
+
+<4>. 暂未实现:长将 / 长捉判和、无吃子步数和棋、置换表、开局库。
 
 ## 二. 环境准备
 

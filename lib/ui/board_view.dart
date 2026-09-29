@@ -7,24 +7,29 @@ import '../core/xiangqi.dart';
 import 'theme.dart';
 
 /// 棋盘几何: 格点 (x, y) 与像素互转, [flipped] 时上下左右翻转(黑方在下)。
+/// 横纵格距可以不同(宽窗口下横向最多拉伸 [maxStretch] 倍), 棋子半径取较小者, 保持正圆。
 class Geo {
-  Geo(Size box)
-      : step = min(box.width / (cols - 1 + 2 * margin), box.height / (rows - 1 + 2 * margin)) {
-    size = Size(step * (cols - 1 + 2 * margin), step * (rows - 1 + 2 * margin));
+  Geo(Size box) {
+    var w = box.width / (cols - 1 + 2 * margin), h = box.height / (rows - 1 + 2 * margin);
+    w = min(w, h * maxStretch);
+    h = min(h, w * maxStretch);
+    sx = w;
+    sy = h;
+    step = min(w, h);
+    size = Size(sx * (cols - 1 + 2 * margin), sy * (rows - 1 + 2 * margin));
   }
-  static const margin = 0.62;
-  static double aspect = (cols - 1 + 2 * margin) / (rows - 1 + 2 * margin);
-  final double step;
+  static const margin = 0.5, maxStretch = 1.6;
+  late final double sx, sy, step;
   late final Size size;
 
   Offset pos(int x, int y, bool flipped) {
     final dx = flipped ? cols - 1 - x : x, dy = flipped ? rows - 1 - y : y;
-    return Offset((margin + dx) * step, (margin + dy) * step);
+    return Offset((margin + dx) * sx, (margin + dy) * sy);
   }
 
   /// 像素 → 格点索引 y*cols+x; 点在棋盘外返回 null。
   int? hit(Offset p, bool flipped) {
-    var x = (p.dx / step - margin).round(), y = (p.dy / step - margin).round();
+    var x = (p.dx / sx - margin).round(), y = (p.dy / sy - margin).round();
     if (x < 0 || y < 0 || x >= cols || y >= rows) return null;
     if (flipped) {
       x = cols - 1 - x;
@@ -34,8 +39,9 @@ class Geo {
   }
 }
 
-const _redName = ['', '車', '馬', '相', '仕', '帥', '炮', '兵'];
-const _blackName = ['', '車', '馬', '象', '士', '將', '砲', '卒'];
+// 行楷字体只含简体, 故棋子用简体字
+const _redName = ['', '车', '马', '相', '仕', '帅', '炮', '兵'];
+const _blackName = ['', '车', '马', '象', '士', '将', '炮', '卒'];
 
 /// 棋盘: 黑色磨砂玻璃底板 + 银线 + 玻璃圆盘棋子。
 class BoardView extends StatefulWidget {
@@ -47,7 +53,9 @@ class BoardView extends StatefulWidget {
     required this.targets,
     required this.enabled,
     required this.onTap,
+    this.align = Alignment.center,
   });
+  final Alignment align;
   final Xiangqi game;
   final bool flipped, enabled;
   final int? selected;
@@ -70,7 +78,8 @@ class _BoardViewState extends State<BoardView> with SingleTickerProviderStateMix
   @override
   Widget build(BuildContext context) => LayoutBuilder(builder: (_, box) {
         final geo = Geo(box.biggest);
-        return Center(
+        return Align(
+          alignment: widget.align,
           child: SizedBox.fromSize(
             size: geo.size,
             child: GestureDetector(
@@ -192,6 +201,7 @@ class _Painter extends CustomPainter {
         text: TextSpan(
           text: s,
           style: TextStyle(
+            fontFamily: fontFamily,
             fontSize: step * 0.55,
             letterSpacing: step * 0.35,
             color: Colors.white.withValues(alpha: 0.28),
@@ -270,7 +280,7 @@ class _Painter extends CustomPainter {
       final tp = TextPainter(
         text: TextSpan(
           text: (red ? _redName : _blackName)[kindOf(pc)],
-          style: TextStyle(fontSize: rr * 1.05, fontWeight: FontWeight.w700, color: ink, height: 1),
+          style: TextStyle(fontFamily: fontFamily, fontSize: rr * 1.1, color: ink, height: 1),
         ),
         textDirection: TextDirection.ltr,
       )..layout();

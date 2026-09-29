@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
+import 'theme.dart' show fontFamily;
+
 /// 仅 Windows / Linux / macOS 桌面端使用自绘标题栏。
 bool get hasCustomTitleBar => !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS);
 
@@ -61,6 +63,7 @@ class AppTitleBar extends StatelessWidget {
                       alignment: Platform.isMacOS ? Alignment.center : Alignment.centerLeft,
                       child: Text('中国象棋',
                           style: TextStyle(
+                            fontFamily: fontFamily,
                             decoration: TextDecoration.none,
                             fontWeight: FontWeight.w400,
                             fontSize: 12,
