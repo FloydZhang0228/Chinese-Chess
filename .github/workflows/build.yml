@@ -68,7 +68,7 @@ jobs:
         id: art
         run: |
           # 用数组计数而不是 wc -l: macOS 的 wc 输出带前导空格, 字符串比较会误判
-          files=(build/${{ matrix.platform }}/ChineseChess-*)
+          files=(build/${{ matrix.platform }}/Chinese-Chess-*)
           [ "${#files[@]}" -eq 1 ] && [ -f "${files[0]}" ] || { echo "应恰有 1 个产物, 实际: ${files[*]}" >&2; exit 1; }
           echo "file=${files[0]}" >> "$GITHUB_OUTPUT"
 
@@ -85,7 +85,7 @@ jobs:
         run: |
           mkdir -p site-out
           cp -r build/web/. site-out/
-          rm -f site-out/ChineseChess-*.zip
+          rm -f site-out/Chinese-Chess-*.zip
 
       - name: Upload artifact (web site)
         if: matrix.platform == 'web'
@@ -108,7 +108,7 @@ jobs:
       # Release 里就没有 windows 压缩包了。
       - uses: actions/download-artifact@v8
         with:
-          pattern: ChineseChess-*
+          pattern: Chinese-Chess-*
           path: dist
           merge-multiple: true
           skip-decompress: true
@@ -121,7 +121,7 @@ jobs:
       - name: Zip web site
         run: |
           mkdir -p dist
-          (cd site && zip -qr "../dist/ChineseChess-$VER-web.zip" .)
+          (cd site && zip -qr "../dist/Chinese-Chess-$VER-web.zip" .)
 
       # 校验: 六个平台产物齐全, 且 dist/ 里只有这六个文件(没有被误解压出的散件)
       - name: Verify artifacts

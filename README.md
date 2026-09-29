@@ -102,12 +102,12 @@ scripts\build.ps1 windows
 
 | 目标 | 产物 | 说明 |
 |---|---|---|
-| linux | `build/linux/ChineseChess-<版本>-linux-x86_64.AppImage` | 单文件,`chmod +x` 后直接运行 |
-| windows | `build/windows/ChineseChess-<版本>-windows-x64.zip` | 解压运行 `chinese_chess.exe`,已内置 VC++ 运行库 |
-| macos | `build/macos/ChineseChess-<版本>-macos-universal.dmg` | 拖入应用程序;未签名,首次需右键"打开" |
-| android | `build/android/ChineseChess-<版本>-android.apk` | 直接安装,需允许未知来源 |
-| ios | `build/ios/ChineseChess-<版本>-ios-unsigned.ipa` | 未签名,用 AltStore / Sideloadly 重签后安装 |
-| web | `build/web/ChineseChess-<版本>-web.zip` | 解压后放到任意 HTTP 服务器;`build/web/` 内也有可直接部署的站点文件 |
+| linux | `build/linux/Chinese-Chess-<版本>-linux-x86_64.AppImage` | 单文件,`chmod +x` 后直接运行 |
+| windows | `build/windows/Chinese-Chess-<版本>-windows-x64.zip` | 解压运行 `chinese_chess.exe`,已内置 VC++ 运行库 |
+| macos | `build/macos/Chinese-Chess-<版本>-macos-universal.dmg` | 拖入应用程序;未签名,首次需右键"打开" |
+| android | `build/android/Chinese-Chess-<版本>-android.apk` | 直接安装,需允许未知来源 |
+| ios | `build/ios/Chinese-Chess-<版本>-ios-unsigned.ipa` | 未签名,用 AltStore / Sideloadly 重签后安装 |
+| web | `build/web/Chinese-Chess-<版本>-web.zip` | 解压后放到任意 HTTP 服务器;`build/web/` 内也有可直接部署的站点文件 |
 
 ### 4. 常见问题
 
@@ -117,7 +117,7 @@ scripts\build.ps1 windows
 
 <3>. `build/` 目录的内容:
 
-① 只保留各平台目录和其中的 `ChineseChess-*` 产物(web 目录额外保留可直接部署的站点文件)。
+① 只保留各平台目录和其中的 `Chinese-Chess-*` 产物(web 目录额外保留可直接部署的站点文件)。
 
 ② 脚本构建前后会自动清掉 Flutter 的中间目录;想保留它们排查问题,设置环境变量 `KEEP_BUILD=1`。
 
@@ -156,7 +156,7 @@ git push origin v0.1.0
 
 ① Linux / Windows / macOS / Android / iOS:每个平台一个 Artifact,内容就是产物文件本身(AppImage、zip、dmg、apk、ipa)。
 
-② Web:Artifact 名为 `web-site`,内容是站点文件夹(`index.html`、`main.dart.js`、`assets/` 等),可直接部署;Release 里则是同一份站点打成的 `ChineseChess-<版本>-web.zip`。
+② Web:Artifact 名为 `web-site`,内容是站点文件夹(`index.html`、`main.dart.js`、`assets/` 等),可直接部署;Release 里则是同一份站点打成的 `Chinese-Chess-<版本>-web.zip`。
 
 ### 4. 首次推送到 GitHub
 

@@ -12,7 +12,7 @@
 
 ## Global Constraints
 
-- 应用名 `中国象棋`;包名 `chinese_chess`;ORG `io.github.chinesechess`;产物前缀 `ChineseChess-`。
+- 应用名 `中国象棋`;包名 `chinese_chess`;ORG `io.github.chinesechess`;产物前缀 `Chinese-Chess-`。
 - 产物仅在 `build/<平台>/`;build 下无中间目录。
 - 平台壳工程不入库(`.gitignore`),由 `build.sh` 的 `ensure_runner` 生成。
 - 分支 `master`;README 编号层级 一. → 1. → <1>. → ①。

@@ -5,8 +5,8 @@ Flutter 单代码库中国象棋,覆盖 Linux / Windows / macOS / Android / iOS 
 
 ## 约束与假设
 - "alpha go" 理解为 Alpha-Beta 搜索(不做神经网络 / MCTS)。
-- 独立新仓库 `/home/floyd/WorkSpace/ChineseChess`,分支 `master`;平台壳工程不入库,由 `build.sh` 现场生成。
-- 产物只在 `build/<平台>/ChineseChess-<版本>-*`,build/ 下不留中间目录。
+- 独立新仓库 `/home/floyd/WorkSpace/Chinese-Chess`,分支 `master`;平台壳工程不入库,由 `build.sh` 现场生成。
+- 产物只在 `build/<平台>/Chinese-Chess-<版本>-*`,build/ 下不留中间目录。
 - 不做:长将/长捉判和、无吃子步数和棋、置换表、开局库、联网对弈。
 
 ## 目录
@@ -43,7 +43,7 @@ packaging/icon.png, packaging/linux/*
 - 窄屏(<820)面板置顶,与五子棋一致。
 
 ## 构建与 CI
-- `build.sh`/`build.ps1`/`build.yml` 由五子棋版本改名而来:`APP_NAME=中国象棋`、`ORG=io.github.chinesechess`、`project-name chinese_chess`、产物前缀 `ChineseChess-`。
+- `build.sh`/`build.ps1`/`build.yml` 由五子棋版本改名而来:`APP_NAME=中国象棋`、`ORG=io.github.chinesechess`、`project-name chinese_chess`、产物前缀 `Chinese-Chess-`。
 - 产物文件名、artifact 处理(单文件 `archive:false`、web 站点文件夹、release `skip-decompress`、校验 6 个文件、master 滚动 `latest`、`v*` 正式版)保持五子棋已验证的做法。
 - 图标:`packaging/icon.png` 用 SVG 生成(红色圆盘"象棋"意象)。
 

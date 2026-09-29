@@ -4,7 +4,7 @@
 # 用法: scripts/build.sh <目标> [版本号]
 #   目标: linux | windows | macos | android | ios | web | all
 #   all : 构建"当前系统能构建"的全部目标
-# 产物: build/<平台>/ChineseChess-<版本>-*
+# 产物: build/<平台>/Chinese-Chess-<版本>-*
 #
 # 各目标对构建机的要求(Flutter 不支持跨系统编译桌面端):
 #   linux            Linux
@@ -85,8 +85,8 @@ apply_icon() {
   rm -f "$cfg"
 }
 
-# 产物目录 build/<平台>/ 与 Flutter 中间产物同处, 只清理旧的 ChineseChess-*, 不能整目录删除
-out() { mkdir -p "$ROOT/build/$1"; rm -rf "$ROOT/build/$1"/ChineseChess-*; echo "$ROOT/build/$1"; }
+# 产物目录 build/<平台>/ 与 Flutter 中间产物同处, 只清理旧的 Chinese-Chess-*, 不能整目录删除
+out() { mkdir -p "$ROOT/build/$1"; rm -rf "$ROOT/build/$1"/Chinese-Chess-*; echo "$ROOT/build/$1"; }
 
 build_linux() {
   need_host linux
@@ -99,7 +99,7 @@ build_linux() {
   ln -sf usr/bin/chinese_chess "$app/AppRun"
   mkdir -p "$(dirname "$tool")"
   [ -x "$tool" ] || { curl -fsSL -o "$tool" https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage; chmod +x "$tool"; }
-  ARCH=x86_64 "$tool" --appimage-extract-and-run "$app" "$o/ChineseChess-$VER-linux-x86_64.AppImage"
+  ARCH=x86_64 "$tool" --appimage-extract-and-run "$app" "$o/Chinese-Chess-$VER-linux-x86_64.AppImage"
   rm -rf "$app"
 }
 
@@ -113,9 +113,9 @@ build_windows() {
     cp "/c/Windows/System32/$d" "$rel/" 2>/dev/null || cp "$SYSTEMROOT/System32/$d" "$rel/"
   done
   if command -v 7z >/dev/null; then
-    7z a -tzip "$o/ChineseChess-$VER-windows-x64.zip" "./$rel/*" >/dev/null
+    7z a -tzip "$o/Chinese-Chess-$VER-windows-x64.zip" "./$rel/*" >/dev/null
   else
-    powershell -NoProfile -Command "Compress-Archive -Path '$rel/*' -DestinationPath '$o/ChineseChess-$VER-windows-x64.zip' -Force"
+    powershell -NoProfile -Command "Compress-Archive -Path '$rel/*' -DestinationPath '$o/Chinese-Chess-$VER-windows-x64.zip' -Force"
   fi
 }
 
@@ -127,14 +127,14 @@ build_macos() {
   rm -rf "$stage"; mkdir -p "$stage"
   cp -R build/macos/Build/Products/Release/chinese_chess.app "$stage/"
   ln -s /Applications "$stage/Applications"
-  hdiutil create -volname ChineseChess -srcfolder "$stage" -ov -format UDZO "$o/ChineseChess-$VER-macos-universal.dmg" >/dev/null
+  hdiutil create -volname Chinese-Chess -srcfolder "$stage" -ov -format UDZO "$o/Chinese-Chess-$VER-macos-universal.dmg" >/dev/null
   rm -rf "$stage"
 }
 
 build_android() {
   ensure_runner android
   flutter build apk --release
-  cp build/app/outputs/flutter-apk/app-release.apk "$(out android)/ChineseChess-$VER-android.apk"
+  cp build/app/outputs/flutter-apk/app-release.apk "$(out android)/Chinese-Chess-$VER-android.apk"
 }
 
 build_ios() {
@@ -144,7 +144,7 @@ build_ios() {
   local o pay=$ROOT/build/_payload; o=$(out ios)
   rm -rf "$pay"; mkdir -p "$pay/Payload"
   cp -R build/ios/iphoneos/Runner.app "$pay/Payload/"
-  (cd "$pay" && zip -qr "$o/ChineseChess-$VER-ios-unsigned.ipa" Payload)
+  (cd "$pay" && zip -qr "$o/Chinese-Chess-$VER-ios-unsigned.ipa" Payload)
   rm -rf "$pay"
 }
 
@@ -152,10 +152,10 @@ build_web() {
   ensure_runner web
   flutter build web --release
   # Flutter 的 web 输出目录本身就是 build/web, 站点文件原地保留, 再打一个 zip
-  rm -f build/web/ChineseChess-*
+  rm -f build/web/Chinese-Chess-*
   local tmp; tmp=$(mktemp -d)
-  (cd build/web && zip -qr "$tmp/ChineseChess-$VER-web.zip" . -x 'ChineseChess-*')
-  mv "$tmp/ChineseChess-$VER-web.zip" build/web/
+  (cd build/web && zip -qr "$tmp/Chinese-Chess-$VER-web.zip" . -x 'Chinese-Chess-*')
+  mv "$tmp/Chinese-Chess-$VER-web.zip" build/web/
   rmdir "$tmp"
 }
 
@@ -173,7 +173,7 @@ clean_intermediates() {
   for d in build/*/; do
     [ -d "$d" ] || continue
     [ "$d" = build/web/ ] && continue
-    find "$d" -mindepth 1 -maxdepth 1 ! -name 'ChineseChess-*' -exec rm -rf {} +
+    find "$d" -mindepth 1 -maxdepth 1 ! -name 'Chinese-Chess-*' -exec rm -rf {} +
   done
 }
 clean_intermediates
@@ -200,10 +200,10 @@ case $TARGET in
   *) usage ;;
 esac
 
-# 收尾: Flutter 在 build/ 下留的中间目录名字固定, 无法改路径, 只能构建完清掉, 只留各平台目录里的 ChineseChess-* 产物。
+# 收尾: Flutter 在 build/ 下留的中间目录名字固定, 无法改路径, 只能构建完清掉, 只留各平台目录里的 Chinese-Chess-* 产物。
 cleanup() { clean_intermediates; }
 [ "${KEEP_BUILD:-}" = 1 ] || cleanup
 
 echo "完成, 产物:"
-find build -mindepth 2 -maxdepth 2 -type f -name 'ChineseChess-*' -exec ls -lh {} \; | awk '{print "  "$NF"  "$5}'
+find build -mindepth 2 -maxdepth 2 -type f -name 'Chinese-Chess-*' -exec ls -lh {} \; | awk '{print "  "$NF"  "$5}'
 [ -z "${ALL_FAILED:-}" ] || exit 1
