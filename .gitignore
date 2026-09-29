@@ -1,0 +1,23 @@
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.metadata
+pubspec.lock
+
+# 平台壳工程: 由 scripts/build.sh 现场生成, 不入库
+/android/
+/ios/
+/linux/
+/macos/
+/windows/
+/web/
+
+# 构建产物(统一在 build/<平台>/)
+build/
+
+# IDE
+.idea/
+*.iml
+.vscode/
