@@ -12,7 +12,7 @@ class Move {
   final int from, to; // y * cols + x
 
   @override
-  bool operator ==(Object o) => o is Move && o.from == from && o.to == to;
+  bool operator ==(Object other) => other is Move && other.from == from && other.to == to;
   @override
   int get hashCode => from * 100 + to;
 }
